@@ -19,18 +19,16 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final KakaoOAuth2 kakaoOAuth2;
-    private final AuthenticationManager authenticationManager;
     private static final String ADMIN_TOKEN = "AAA";
 
     @Autowired
     public UserService(UserRepository userRepository,
                        PasswordEncoder passwordEncoder,
-                       KakaoOAuth2 kakaoOAuth2,
-                       AuthenticationManager authenticationManager){
+                       KakaoOAuth2 kakaoOAuth2
+                       ){
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.kakaoOAuth2 = kakaoOAuth2;
-        this.authenticationManager =authenticationManager;
     }
 
     public void kakaoLogin(String authorizedCode) {
@@ -39,12 +37,11 @@ public class UserService {
         String nickname = userInfo.getNickName();
         String email = userInfo.getEmail();
 
-        // DB 에 중복된 Kakao Id 가 있는지 확인
-        User kakaoUser = userRepository.findByKakaoId(kakaoId).orElse(null);
-
         String username = nickname;
         String password = kakaoId + ADMIN_TOKEN;
 
+        // DB 에 중복된 Kakao Id 가 있는지 확인
+        User kakaoUser = userRepository.findByKakaoId(kakaoId).orElse(null);
 
         if (kakaoUser == null) {
             User sameUser = null;
@@ -56,6 +53,7 @@ public class UserService {
                 kakaoUser = sameUser;
                 kakaoUser.updateKakoId(kakaoId);
             } else {
+                // 회원가입 로직
                 kakaoUser = new User(username, password, email, kakaoId);
                 userRepository.save(kakaoUser);
             }
@@ -64,8 +62,8 @@ public class UserService {
 //        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
 //        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
-        Authentication kakaoUsernamePassword = new UsernamePasswordAuthenticationToken(username, password);
-        Authentication authentication = authenticationManager.authenticate(kakaoUsernamePassword);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+//        Authentication kakaoUsernamePassword = new UsernamePasswordAuthenticationToken(username, password);
+//        Authentication authentication = authenticationManager.authenticate(kakaoUsernamePassword);
+//        SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 }

@@ -1,11 +1,10 @@
 package Mirthon.Oasis_back.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
+
+import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -14,4 +13,15 @@ public class Notice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long noticeId;
+
+    private NoticeType noticeType;
+
+    private String noticeContent;
+
+    private LocalDateTime noticeDate;
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "fountainId")
+    private Fountain fountain;
 }

@@ -6,30 +6,34 @@ import Mirthon.Oasis_back.domain.User;
 import Mirthon.Oasis_back.repository.UserRepository;
 import Mirthon.Oasis_back.util.UserInviteCodeGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.security.core.Authentication;
-
 
 @Service
-public class UserService {
+public class KakaoLoginService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserInviteCodeGenerator userInviteCodeGenerator;
+    private final AuthenticationManager authenticationManager;
     private final KakaoOAuth2 kakaoOAuth2;
     private static final String ADMIN_TOKEN = "AAA";
 
     @Autowired
-    public UserService(UserRepository userRepository,
+    public KakaoLoginService(UserRepository userRepository,
                        PasswordEncoder passwordEncoder,
                        KakaoOAuth2 kakaoOAuth2,
-                       UserInviteCodeGenerator userInviteCodeGenerator){
+                       UserInviteCodeGenerator userInviteCodeGenerator,
+                       AuthenticationManager authenticationManager){
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.kakaoOAuth2 = kakaoOAuth2;
         this.userInviteCodeGenerator = userInviteCodeGenerator;
+        this.authenticationManager = authenticationManager;
     }
 
     public void kakaoLogin(String authorizedCode) {
@@ -42,9 +46,14 @@ public class UserService {
         String password = kakaoId + ADMIN_TOKEN;
 
         // DB 에 중복된 Kakao Id 가 있는지 확인
-        User kakaoUser = userRepository.findByEmail(email).orElse(null);
+        User kakaoUser = userRepository.findByKakaoId(kakaoId).orElse(null);
 
         if (kakaoUser == null) {
+            // 회원가입 로직
+            String userInviteCode = userInviteCodeGenerator.generateReCode();
+            kakaoUser = new User(userName, password, email, kakaoId, userInviteCode);
+            userRepository.save(kakaoUser);
+            } else {
             // 중복된 이메일 체크
             if (userRepository.existsByEmail(email)) {
                 // 중복된 이메일이 있을 경우, 해당 이메일로 회원 찾기
@@ -55,22 +64,11 @@ public class UserService {
 
                 // Kakao ID 업데이트
                 kakaoUser.updateKakaoId(kakaoId);
-            } else {
-                // 회원가입 로직
-                String userInviteCode = userInviteCodeGenerator.generateReCode();
-                kakaoUser = new User(userName, password, email, kakaoId, userInviteCode);
-                userRepository.save(kakaoUser);
             }
         }
-    }
-
-
-    // 현재 로그인한 사용자
-    public User getCurrentUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.getPrincipal() instanceof User) {
-            return (User) authentication.getPrincipal();
-        }
-        return null;
+        // 강제 로그인 처리
+        Authentication kakaoUsernamePW = new UsernamePasswordAuthenticationToken(userName, password);
+        Authentication authentication = authenticationManager.authenticate(kakaoUsernamePW);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 }

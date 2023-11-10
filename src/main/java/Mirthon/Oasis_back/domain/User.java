@@ -19,18 +19,25 @@ public class User {
     private Long userId;
     @Column(name = "kakao_id")
     private Long kakaoId;
+    private String userInviteCode; // 추천인 코드
     private String password;
     private String email;
     private String userPhoneNumber;
-    private String username;
+    private String userName;
+    @Column(name = "user_x", nullable = false)
+    private int user_x = 0;
 
-    public User(String username, String password, String email, Long kakaoId) {
-        this.username = username;
+    @Column(name = "user_y", nullable = false)
+    private int user_y = 0;
+
+    public User(String userName, String password, String email, Long kakaoId, String userInviteCode) {
+        this.userName = userName;
         this.password = password;
         this.email = email;
         this.kakaoId = kakaoId;
+        this.userInviteCode = userInviteCode;
     }
-    public void updateKakoId(Long kakaoId) {
+    public void updateKakaoId(Long kakaoId) {
         this.kakaoId = kakaoId;
     }
 

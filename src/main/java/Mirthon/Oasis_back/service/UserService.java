@@ -4,13 +4,11 @@ import Mirthon.Oasis_back.config.kakao.KakaoOAuth2;
 import Mirthon.Oasis_back.config.kakao.KakaoUserInfo;
 import Mirthon.Oasis_back.domain.User;
 import Mirthon.Oasis_back.repository.UserRepository;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 
 @Service
@@ -58,6 +56,13 @@ public class UserService {
                 userRepository.save(kakaoUser);
             }
         }
+    }
+
+        public Optional<User> getUserInfo(Long kakaoId) {
+           return userRepository.findByKakaoId(kakaoId);
+        }
+
+
         // 로그인 처리
 //        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
 //        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
@@ -65,5 +70,5 @@ public class UserService {
 //        Authentication kakaoUsernamePassword = new UsernamePasswordAuthenticationToken(username, password);
 //        Authentication authentication = authenticationManager.authenticate(kakaoUsernamePassword);
 //        SecurityContextHolder.getContext().setAuthentication(authentication);
-    }
+
 }

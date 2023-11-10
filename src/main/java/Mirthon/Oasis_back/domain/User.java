@@ -21,7 +21,15 @@ public class User {
     private Long kakaoId;
     private String password;
     private String email;
-    private String userPhoneNumber;
+    private String phone_number;
+    private String profile_image_url;
+    private String user_grade;
+    private String user_invite_code;
+    private String user_name;
+    private int user_x;
+    private int user_y;
+
+
     private String username;
 
     public User(String username, String password, String email, Long kakaoId) {

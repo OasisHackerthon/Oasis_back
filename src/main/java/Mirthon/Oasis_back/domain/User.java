@@ -54,7 +54,8 @@ public class User {
     @OneToMany(mappedBy = "user" , cascade = CascadeType.ALL)
     private List<UserPoint> userPoints;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "itemUser" , cascade = CascadeType.ALL)
-    private List<MyItem> myItems;
+    //fixMe: 필요한 기능일때 주석해제 필요 (현재는 오류나서 주석처리)
+//    @JsonIgnore
+//    @OneToMany(mappedBy = "itemUser" , cascade = CascadeType.ALL)
+//    private List<MyItem> myItems;
 }

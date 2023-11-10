@@ -1,12 +1,15 @@
 package Mirthon.Oasis_back.domain;
 
 
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -21,14 +24,8 @@ public class User {
     private Long kakaoId;
     private String userInviteCode; // 추천인 코드
     private String password;
-    private String email;
-    private String userPhoneNumber;
-    private String userName;
-    @Column(name = "user_x", nullable = false)
-    private int user_x = 0;
 
-    @Column(name = "user_y", nullable = false)
-    private int user_y = 0;
+
 
     public User(String userName, String password, String email, Long kakaoId, String userInviteCode) {
         this.userName = userName;
@@ -41,4 +38,23 @@ public class User {
         this.kakaoId = kakaoId;
     }
 
+    private String email;
+    private String userPhoneNumber;
+
+    private String userName;
+
+    private String userGrade;
+
+    private int user_x;
+    private int user_y;
+
+    private String profileImageUrl;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user" , cascade = CascadeType.ALL)
+    private List<UserPoint> userPoints;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "itemUser" , cascade = CascadeType.ALL)
+    private List<MyItem> myItems;
 }

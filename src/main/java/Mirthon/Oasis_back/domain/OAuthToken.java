@@ -7,10 +7,10 @@ import lombok.Getter;
 @Getter
 public class OAuthToken {
 
-    private String access_token;
-    private String token_type;
-    private String refresh_token;
-    private int expires_in;
+    private String accessToken;
+    private String tokenType;
+    private String refreshToken;
+    private int expiresIn;
     private String scope;
-    private int refresh_token_expires_in;
+    private Long accessTokenExpiresIn;
 }

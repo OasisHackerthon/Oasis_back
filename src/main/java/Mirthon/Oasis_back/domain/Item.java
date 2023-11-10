@@ -12,11 +12,18 @@ import lombok.ToString;
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long item_id;
-    private String item_name;
-    private String item_brand;
-    private Integer item_price;
-    private String item_image_url;
-    private Long my_item_id;
+    private Long itemId;
 
+    private String itenName;
+
+    private Long itemPrice;
+
+    private String itemImageUrl;
+
+    private String itemBrand;
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "myItemId")
+    private MyItem myItem;
 }

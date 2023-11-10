@@ -6,8 +6,9 @@ import Mirthon.Oasis_back.repository.UserRepository;
 import Mirthon.Oasis_back.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -34,5 +35,11 @@ public class UserController {
     public ResponseEntity<String> inputInviteCode() {
         // 구현해야됨
         return ResponseEntity.badRequest().body("사용자가 인증되지 않았습니다.");
+    }
+
+    @GetMapping("/{kakaoId}")
+    public Optional<User> getUserInfo(@PathVariable Long kakaoId){
+        return userService.getUserInfo(kakaoId);
+
     }
 }

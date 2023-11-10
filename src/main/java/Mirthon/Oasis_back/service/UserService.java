@@ -11,6 +11,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.security.core.Authentication;
 
+import java.util.Optional;
+
 
 @Service
 public class UserService {
@@ -73,4 +75,9 @@ public class UserService {
         }
         return null;
     }
+
+    public Optional<User> getUserInfo(Long kakaoId) {
+        return userRepository.findByKakaoId(kakaoId);
+    }
+
 }

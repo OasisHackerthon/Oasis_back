@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*",  allowedHeaders = "*")
+@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true", allowedHeaders = "*")
 public class MainPageApiController {
     private final FountainRepository fountainRepository;
 
@@ -46,6 +46,8 @@ public class MainPageApiController {
     @GetMapping("/api/saveFountain/{userId}")
     public void saveFountain(@PathVariable("userId") Long userId) throws Exception {
         fountainService.readJsonAndSaveFountains("/root/Java/Seoul.json", userId);
+        //해당 파일 경로로 변경(서버 컴퓨터 -> root/Java/Seoul.json으로 변경)
+        //C:/Users/user/water/Seoul.json
     }
 
 
@@ -90,6 +92,13 @@ public class MainPageApiController {
     }
 
 
+    @GetMapping("/api/getAllNotice/{fountainId}")
+    public List<Notice> getAllNotice(@PathVariable Long fountainId) {
+        Fountain fountain = fountainRepository.getById(fountainId);
+        return noticeRepository.findByFountain(fountain);
+    }
+
+
 
 
     //userPoint 생성, fountain visited로변경,date기록
@@ -109,5 +118,10 @@ public class MainPageApiController {
     @GetMapping("/api/getUserPoint/{userId}")
     public List<UserPoint> getUserPoint(@PathVariable("userId") Long userId) {
         return userPointService.getAllUserPoints(userId);
+    }
+
+    @GetMapping("/")
+    public String Hello() {
+        return "Hello";
     }
 }

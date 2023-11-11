@@ -7,11 +7,13 @@ import Mirthon.Oasis_back.service.KakaoLoginService;
 import Mirthon.Oasis_back.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
+@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true", allowedHeaders = "*")
 public class KakaoController {
     private final KakaoLoginService kakaoLoginService;
     private final UserService userService;

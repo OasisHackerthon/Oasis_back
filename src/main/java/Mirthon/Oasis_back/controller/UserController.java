@@ -17,6 +17,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true", allowedHeaders = "*")
 public class UserController {
 
     private final UserRepository userRepository;

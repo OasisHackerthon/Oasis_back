@@ -1,5 +1,6 @@
 package Mirthon.Oasis_back.service;
 
+import Mirthon.Oasis_back.domain.MyItem;
 import Mirthon.Oasis_back.domain.UserPoint;
 import Mirthon.Oasis_back.repository.MyItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;

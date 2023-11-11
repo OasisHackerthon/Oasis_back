@@ -31,9 +31,9 @@ public class KakaoController {
 
     // 카카오 서버로부터 받은 인가 코드
     @GetMapping("/auth/kakao/callback")
-    public @ResponseBody String kakaoLoginCallback(@RequestParam(value = "code",required = false) String code) {
+    public String kakaoLoginCallback(@RequestParam(value = "code",required = false) String code) {
         userService.kakaoLogin(code);
         User currentUser = userService.getCurrentUser();
-        return "카카오 인증 완료 " + currentUser;
+        return "redirect:/";
     }
 }

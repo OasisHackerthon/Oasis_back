@@ -41,6 +41,7 @@ public class UserPointService {
         return userPointRepository.save(newUserPoint);
     }
 
+
     public List<UserPoint> getAllUserPoints(Long userId) {
         User user = userRepository.findById(userId).get();
         return  userPointRepository.findByUser(user);

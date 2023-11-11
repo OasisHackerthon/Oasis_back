@@ -19,6 +19,12 @@ public class MyitemService {
         this.myItemRepository = myItemRepository;
     }
 
+
+    public List<MyItem> getUserUsepoint(Long userId) {
+
+        return  myItemRepository.findByUserId(userId);}
+
+
     public int getCurrentUserPoints(Long userId) {
         //1.적립포인트 가져온다
         List<UserPoint> pluspoint = userPointService.getAllUserPoints(userId);

@@ -34,6 +34,6 @@ public class KakaoController {
     public String kakaoLoginCallback(@RequestParam(value = "code",required = false) String code) {
         userService.kakaoLogin(code);
         User currentUser = userService.getCurrentUser();
-        return "redirect:/";
+        return "카카오 인증 완료 " + currentUser;
     }
 }

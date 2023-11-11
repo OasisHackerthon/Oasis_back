@@ -3,9 +3,7 @@ package Mirthon.Oasis_back.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -15,6 +13,8 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+@Builder
+@AllArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,7 +25,9 @@ public class User {
     private String userInviteCode; // 추천인 코드
     private String password;
 
-
+    public Long getId() {
+        return userId;
+    }
 
     public User(String userName, String password, String email, Long kakaoId, String userInviteCode) {
         this.userName = userName;

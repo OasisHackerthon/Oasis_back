@@ -1,10 +1,16 @@
 package Mirthon.Oasis_back.util;
 
+import Mirthon.Oasis_back.domain.OAuthToken;
+import Mirthon.Oasis_back.domain.User;
 import io.jsonwebtoken.*;
 
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
+import org.springframework.data.redis.core.RedisTemplate;
+
 public class TokenUtil {
-    private static final String SECRET_KEY = "WmGu0virUUzgbJUsZvQfTyJj7tlbjur3"; // 사용자의 시크릿 키로 교체해야 합니다.
+    private static final String SECRET_KEY = "WmGu0virUUzgbJUsZvQfTyJj7tlbjur3";
+
 
     public static boolean isTokenExpired(String token, String secretKey) {
         try {

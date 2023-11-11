@@ -10,6 +10,11 @@ import java.util.Collection;
 
 public class KakaoUserDetails implements UserDetails {
 
+    private User user;
+
+    public KakaoUserDetails(User user) {
+        this.user = user;
+    }
     private Long id;
     private String kakaoId;
     private String nickname;
@@ -28,6 +33,10 @@ public class KakaoUserDetails implements UserDetails {
 
     public void setNickname(String nickname) {
         this.nickname = nickname;
+    }
+
+    public String getKakaoId() {
+        return kakaoId;
     }
 
     @Override

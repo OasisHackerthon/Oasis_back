@@ -59,9 +59,9 @@ public class UserController {
 
     }
     //사용포인트히스토리
-    @GetMapping("/usepointlist/{userId}")
-    public List<MyItem> getUserUsepoint(@PathVariable Long userId) {
-     return myitemService.getUserUsepoint(userId);
-    }
+//    @GetMapping("/usepointlist/{userId}")
+//    public List<MyItem> getUserUsepoint(@PathVariable Long userId) {
+//        return myitemService.getUserUsepoint(userId);
+//    }
 
 }

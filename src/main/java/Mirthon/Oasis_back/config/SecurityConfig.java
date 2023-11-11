@@ -1,6 +1,8 @@
 package Mirthon.Oasis_back.config;
 
 
+import Mirthon.Oasis_back.service.CustomOAuth2UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,6 +20,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
+    @Autowired
+    private CustomOAuth2UserService customOAuth2UserService;
+
 
     public SecurityConfig(UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
@@ -43,10 +48,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/user").authenticated()
+                .anyRequest().permitAll() // 다른 요청은 모두 허용
                 .and()
                 .oauth2Login()
-
+                .permitAll()
                 .and()
-                .logout();
+                .csrf().disable(); // CSRF 보안 설정 비활성화
     }
+
+
 }

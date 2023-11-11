@@ -33,6 +33,8 @@ spring:
     form-login:
       enabled=false:
 
+secret:
+  key: 1234
 
   jpa:
     hibernate:

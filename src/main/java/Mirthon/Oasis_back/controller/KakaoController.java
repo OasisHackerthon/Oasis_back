@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 @Controller
 public class KakaoController {
     private final KakaoLoginService kakaoLoginService;
@@ -29,9 +32,10 @@ public class KakaoController {
 
     // 카카오 서버로부터 받은 인가 코드
     @GetMapping("/auth/kakao/callback")
-    public @ResponseBody String kakaoLoginCallback(@RequestParam(value = "code",required = false) String code) {
+    public @ResponseBody String kakaoLoginCallback(@RequestParam(value = "code",required = false) String code)  {
         userService.kakaoLogin(code);
-        User currentUser = userService.getCurrentUser();
-        return "카카오 인증 완료 " + currentUser;
+        return code + userService.getCurrentUser();
     }
+
+
 }

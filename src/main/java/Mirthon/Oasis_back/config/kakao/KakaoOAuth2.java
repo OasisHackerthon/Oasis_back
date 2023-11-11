@@ -32,7 +32,7 @@ public class KakaoOAuth2 {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("grant_type", "authorization_code");
         params.add("client_id", "bd9c7a5b1824856cb653477b896c35cc");
-        params.add("redirect_uri", "http://localhost:8080/auth/kakao/callback");
+        params.add("redirect_uri", "http://localhost:5173/auth/kakao/callback");
         params.add("code", authorizedCode);
         params.add("client_secret", "WmGu0virUUzgbJUsZvQfTyJj7tlbjur3");
 

@@ -3,10 +3,12 @@ package Mirthon.Oasis_back.service;
 import Mirthon.Oasis_back.config.kakao.KakaoOAuth2;
 import Mirthon.Oasis_back.config.kakao.KakaoUserInfo;
 import Mirthon.Oasis_back.domain.User;
+import Mirthon.Oasis_back.dto.UserDTO;
 import Mirthon.Oasis_back.repository.UserRepository;
 import Mirthon.Oasis_back.util.UserInviteCodeGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.security.core.Authentication;
@@ -34,7 +36,7 @@ public class UserService {
         this.userInviteCodeGenerator = userInviteCodeGenerator;
     }
 
-    public void kakaoLogin(String authorizedCode) {
+    public UserDTO kakaoLogin(String authorizedCode) {
         KakaoUserInfo userInfo = kakaoOAuth2.getUserInfo(authorizedCode);
         Long kakaoId = userInfo.getId();
         String nickname = userInfo.getNickName();
@@ -64,6 +66,20 @@ public class UserService {
                 userRepository.save(kakaoUser);
             }
         }
+        kakaoUser = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        UserDTO userDTO = mapUserToDTO(kakaoUser);
+
+        return userDTO;
+    }
+
+    private UserDTO mapUserToDTO(User user) {
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(user.getId());
+        userDTO.setUsername(user.getUserName());
+        userDTO.setEmail(user.getEmail());
+        return userDTO;
     }
 
 

@@ -1,5 +1,6 @@
 package Mirthon.Oasis_back.config.kakao;
 
+import Mirthon.Oasis_back.domain.OAuthToken;
 import Mirthon.Oasis_back.util.TokenUtil;
 import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
@@ -13,6 +14,7 @@ import org.springframework.web.client.RestTemplate;
 
 @Component
 public class KakaoOAuth2 {
+
     public KakaoUserInfo getUserInfo(String authorizedCode) {
         System.out.println("인가코드 : "+ authorizedCode);
         // 1. 인증코드 -> 액세스 토큰
@@ -23,7 +25,7 @@ public class KakaoOAuth2 {
         return userInfo;
     }
 
-    private String getAccessToken(String authorizedCode) {
+    public String getAccessToken(String authorizedCode) {
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
@@ -32,7 +34,7 @@ public class KakaoOAuth2 {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("grant_type", "authorization_code");
         params.add("client_id", "bd9c7a5b1824856cb653477b896c35cc");
-        params.add("redirect_uri", "http://localhost:5173/auth/kakao/callback");
+        params.add("redirect_uri", "http://localhost:8080/auth/kakao/callback");
         params.add("code", authorizedCode);
         params.add("client_secret", "WmGu0virUUzgbJUsZvQfTyJj7tlbjur3");
 

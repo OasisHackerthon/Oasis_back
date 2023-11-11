@@ -19,11 +19,15 @@ public class Volunteer {
 
     private String title;
 
-    private LocalDateTime date;
+    private String date;
     private String p;
 
     private Long member;
     private String url;
 
     private String center;
+
+    private String imgUrl;
+
+    private boolean water;
 }

@@ -5,7 +5,7 @@ import Mirthon.Oasis_back.domain.MyItem;
 import Mirthon.Oasis_back.domain.User;
 import Mirthon.Oasis_back.domain.UserPoint;
 import Mirthon.Oasis_back.repository.UserRepository;
-import Mirthon.Oasis_back.service.MyitemService;
+import Mirthon.Oasis_back.service.MyItemService;
 import Mirthon.Oasis_back.service.UserPointService;
 import Mirthon.Oasis_back.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +24,10 @@ public class UserController {
     private final UserService userService;
     private final UserPointService userPointService;
 
-    private final MyitemService myitemService;
+    private final MyItemService myitemService;
 
     @Autowired
-    public UserController(UserRepository userRepository, UserService userService, UserPointService userPointService, MyitemService myitemService) {
+    public UserController(UserRepository userRepository, UserService userService, UserPointService userPointService, MyItemService myitemService) {
         this.userRepository = userRepository;
         this.userService = userService;
         this.userPointService = userPointService;
@@ -54,15 +54,11 @@ public class UserController {
 
     }
     //포인트적립히스토리
-    @GetMapping("/pluspointlist/{userId}")
-    public List<UserPoint> getUserPluspoint(@PathVariable Long userId){
-        return userPointService.getAllUserPoints(userId);
 
-    }
-    //사용포인트히스토리
-    @GetMapping("/usepointlist/{userId}")
-    public List<MyItem> getUserUsepoint(@PathVariable Long userId) {
-     return myitemService.getUserUsepoint(userId);
+
+    @GetMapping("/api/getUser/{userId}")
+    public User getUser(@PathVariable("userId") Long userId) {
+        return userRepository.getById(userId);
     }
 
 }

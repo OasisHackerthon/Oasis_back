@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -28,7 +29,17 @@ public class UserPointService {
         Fountain fountain = fountainRepository.findById(fountainId).get();
 
         UserPoint newUserPoint = new UserPoint();
-        newUserPoint.setPointDate(LocalDateTime.now());
+
+        String dateString = LocalDateTime.now().toString();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        // 문자열을 LocalDateTime으로 파싱
+        LocalDateTime date = LocalDateTime.parse(dateString, formatter);
+        newUserPoint.setPointDate(date);
+
+
+
+        //newUserPoint.setPointDate(LocalDateTime.now());
         newUserPoint.setUserPoint(100L);
         newUserPoint.setFountain(fountain);
         newUserPoint.setUser(user);

@@ -8,13 +8,12 @@ import lombok.ToString;
 @Entity
 @Getter
 @Setter
-@ToString
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long itemId;
 
-    private String itenName;
+    private String itemName;
 
     private Long itemPrice;
 

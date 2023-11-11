@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +38,14 @@ public class NoticeService {
         Fountain fountain = fountainRepository.getById(fountainId);
         notice.setFountain(fountain);
         notice.setNoticeType(수질부적합);
-        notice.setNoticeDate(LocalDateTime.now());
+
+
+        String dateString = LocalDateTime.now().toString();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        // 문자열을 LocalDateTime으로 파싱
+        LocalDateTime date = LocalDateTime.parse(dateString, formatter);
+        notice.setNoticeDate(date);
         notice.setNoticeContent("현재" + fountain.getFountainName()+"의 수질이 부적합니다. 주의하세요.");
         noticeRepository.save(notice);
         return noticeRepository.findByFountain(fountain);

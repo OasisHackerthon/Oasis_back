@@ -1,6 +1,7 @@
 package Mirthon.Oasis_back.repository;
 
 import Mirthon.Oasis_back.domain.MyItem;
+import Mirthon.Oasis_back.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -11,9 +12,8 @@ import java.util.List;
 @Repository
 public interface MyItemRepository extends JpaRepository<MyItem, Long> {
 
-    List<MyItem> findByUserId(Long userId);
+    public List<MyItem> findByItemUser(User user);
 
-    @Query("SELECT COALESCE(SUM(m.usePoint), 0) FROM MyItem m WHERE m.userId = :userId")
-    int findTotalUserPointByUserId(@Param("userId") Long userId);
+
 }
 

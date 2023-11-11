@@ -19,18 +19,15 @@ public class MyItem {
 
     private LocalDateTime buyDate;
 
-    private Long usePoint;
-    private Long userId;
-    private Long ItemId;
-
+    private Long usePoint; //가격
 
 
     //fixMe: 필요한 기능일때 주석해제 필요 (현재는 오류나서 주석처리)
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "userId")
-//    private User itemUser;
-//
-//    @JsonIgnore
-//    @OneToMany(mappedBy = "myItem" , cascade = CascadeType.ALL)
-//    private List<Item> items;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User itemUser;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "myItem" , cascade = CascadeType.ALL)
+    private List<Item> items;
 }

@@ -28,14 +28,15 @@ public class MyItemService {
     private final UserRepository userRepository;
 
     private final ItemRepository itemRepository;
+    private final ItemService itemService;
 
 
 
     public Long getUserUsedPoint(Long userId) {
         User user = userRepository.findById(userId).get();
-        Long totalUsedPoints =0L;
+        Long totalUsedPoints = 0L;
         List<MyItem> myItems = myItemRepository.findByItemUser(user);
-        for(MyItem item : myItems) {
+        for (MyItem item : myItems) {
             totalUsedPoints += item.getUsePoint();
         }
         return totalUsedPoints;
@@ -46,7 +47,7 @@ public class MyItemService {
         User user = userRepository.findById(userId).get();
         Long userHavePoints = 0L;
         List<UserPoint> userPoints = userPointRepository.findByUser(user);
-        for(UserPoint userPoint : userPoints) {
+        for (UserPoint userPoint : userPoints) {
             userHavePoints += userPoint.getUserPoint();
         }
         return userHavePoints;
@@ -75,18 +76,27 @@ public class MyItemService {
         MyItem myItem1 = new MyItem();
         myItem1.setItemUser(user);
 
-        String dateString = LocalDateTime.now().toString();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        Long userPoints = getCurrentUserPoints(userId);
+        Long itemPrice = itemService.getItemPriceByItemId(itemId);
 
-        // 문자열을 LocalDateTime으로 파싱
-        LocalDateTime date = LocalDateTime.parse(dateString, formatter);
-        myItem1.setBuyDate(date);
+        if (userPoints != null && itemPrice != null && userPoints >= itemPrice) {
 
-        myItem1.setBuyDate(LocalDateTime.now());
-        myItem1.setUsePoint(item.getItemPrice());
+//        String dateString = LocalDateTime.now().toString();
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-        return myItemRepository.save(myItem1);
+            // 문자열을 LocalDateTime으로 파싱
+//        LocalDateTime date = LocalDateTime.parse(dateString, formatter);
+//        myItem1.setBuyDate(date);
+
+            myItem1.setBuyDate(LocalDateTime.now());
+            myItem1.setUsePoint(item.getItemPrice());
+
+            return myItemRepository.save(myItem1);
+
+        } else {
+            return null;
+        }
+
+
     }
-
-
 }
